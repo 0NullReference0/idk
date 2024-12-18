@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webcam Capture</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    video {
+      border: 2px solid #333;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    canvas, img {
+      margin-top: 10px;
+      border: 2px solid #333;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Webcam Capture</h1>
+  <video id="webcam" autoplay playsinline width="640" height="480"></video>
+  <br>
+  <button id="capture">Capture Image</button>
+  <br>
+  <canvas id="snapshot" width="640" height="480" style="display: none;"></canvas>
+  <img id="output" alt="Captured Image" width="640" height="480">
+
+  <script>
+    const webcam = document.getElementById('webcam');
+    const captureButton = document.getElementById('capture');
+    const snapshotCanvas = document.getElementById('snapshot');
+    const outputImage = document.getElementById('output');
+    const snapshotContext = snapshotCanvas.getContext('2d');
+
+    async function startWebcam() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        webcam.srcObject = stream;
+      } catch (error) {
+        alert('Unable to access the webcam. Please allow access.');
+        console.error(error);
+      }
+    }
+
+    captureButton.addEventListener('click', () => {
+      snapshotContext.drawImage(webcam, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+      outputImage.src = snapshotCanvas.toDataURL('image/png');
+    });
+
+    startWebcam();
+  </script>
+</body>
+</html>
