@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Null</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+            background-image: url("echidnablurred.png");
+            background-size: cover;
+            background-position: center;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-style: italic;
+        }
+
+        .panel {
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            background-color: rgba(15, 15, 15, 0.8);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #222;
+            color: #ffffff;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="panel">
+        <h1>Null</h1>
+        <button id="playMusic">Song On/Off</button>
+        <button onclick="window.open('https://www.youtube.com/@NullReferenceError', '_blank')">YouTube</button>
+        <button onclick="window.open('https://steamcommunity.com/profiles/76561199429199426/', '_blank')">Steam</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let audio = document.getElementById("bgMusic");
+    
+            setTimeout(() => {
+                audio.muted = true; 
+                let playPromise = audio.play();
+    
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        audio.muted = false; 
+                    }).catch(error => {
+                        document.addEventListener("click", () => {
+                            audio.play();
+                        }, { once: true });
+                    });
+                }
+            }, 2000);
+        });
+
+        document.getElementById("playMusic").addEventListener("click", function () {
+            let audio = document.getElementById("bgMusic");
+            if (audio.muted == false) {
+                audio.muted = true;
+            } else {
+                audio.muted = false;
+            }
+        });
+    </script>
+
+</body>
+</html>
